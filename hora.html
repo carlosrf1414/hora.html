@@ -6,10 +6,12 @@
     <title>Hora Actual en Paraguay</title>
     <script>
         function obtenerHoraActual() {
+            const ahora = new Date();
             const opciones = { timeZone: 'America/Asuncion', hour12: false };
-            const ahora = new Date().toLocaleString('es-PY', opciones);
-            const fechaHora = new Date(ahora).toISOString();
-            document.body.textContent = JSON.stringify({ datetime: fechaHora });
+            const fechaHora = new Intl.DateTimeFormat('es-PY', opciones).format(ahora);
+            const [fecha, hora] = fechaHora.split(', ');
+            const isoString = new Date(`${fecha}T${hora}:00`).toISOString();
+            document.body.textContent = JSON.stringify({ datetime: isoString });
         }
 
         setInterval(obtenerHoraActual, 1000); // Actualiza cada segundo
